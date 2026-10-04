@@ -379,7 +379,7 @@ def pagina_resumen(df: pd.DataFrame, sla_min: float) -> None:
     render_metricas(df, sla_min)
     render_audiencias()
 
-    st.subheader("Diagnostico rapido")
+    st.subheader("Diagnóstico rapido")
     por_canal = tabla_resumen(df, ["canal_entrega"], sla_min)
     por_provincia = tabla_resumen(df, ["provincia"], sla_min)
     col1, col2 = st.columns(2)
