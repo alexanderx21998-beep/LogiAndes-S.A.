@@ -10,7 +10,7 @@ DATA_PATH = BASE_DIR / "logiandes.csv"
 
 
 st.set_page_config(
-    page_title="LogiAndes | Presentacion logistica",
+    page_title="LogiAndes | Presentación logistica",
     page_icon="LA",
     layout="wide",
     initial_sidebar_state="expanded",
