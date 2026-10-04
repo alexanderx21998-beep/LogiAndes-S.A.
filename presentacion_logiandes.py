@@ -10,7 +10,7 @@ DATA_PATH = BASE_DIR / "logiandes.csv"
 
 
 st.set_page_config(
-    page_title="LogiAndes | Presentación logistica",
+    page_title="LogiAndes | Presentación logística", #aqui
     page_icon="LA",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -107,10 +107,10 @@ def cargar_datos(path: Path) -> pd.DataFrame:
     df["fecha_pedido"] = pd.to_datetime(df["fecha_pedido"], errors="coerce")
 
     reemplazos = {
-        "Est�ndar urbano": "Estandar urbano",
-        "Estándar urbano": "Estandar urbano",
-        "Manab�": "Manabi",
-        "Manabí": "Manabi",
+        "Est�ndar urbano": "Estándar urbano", #aqui
+        "Estándar urbano": "Estándar urbano", #aqui
+        "Manab�": "Manabí",
+        "Manabí": "Manabí", #aqui
     }
     for columna in ["provincia", "region", "canal_entrega", "tipo_cliente", "motivo_reclamo"]:
         df[columna] = df[columna].replace(reemplazos)
@@ -270,13 +270,13 @@ def fichas_kpi(sla_min: float) -> list[dict[str, str]]:
     return [
         {
             "Nombre": "Cumplimiento de SLA",
-            "Objetivo": "Medir la proporcion de pedidos entregados dentro del tiempo objetivo.",
+            "Objetivo": "Medir la proporción de pedidos entregados dentro del tiempo objetivo.",
             "Formula": f"Pedidos con entrega <= {sla_min:.0f} min / total de pedidos",
             "Fuente": "logiandes.csv: tiempo_individual_entrega_min, pedido_id",
             "Frecuencia": "Diaria / semanal",
             "Meta": ">= 85%",
-            "Umbral": "< 75% requiere revision operativa",
-            "Interpretacion": "Valores bajos senalan saturacion, promesa comercial agresiva o problemas de ruta.",
+            "Umbral": "< 75% requiere revisión operativa",
+            "Interpretacion": "Valores bajos senalan saturación, promesa comercial agresiva o problemas de ruta.", #aqui
         },
         {
             "Nombre": "P90 de tiempo de entrega",
@@ -285,22 +285,22 @@ def fichas_kpi(sla_min: float) -> list[dict[str, str]]:
             "Fuente": "logiandes.csv: tiempo_individual_entrega_min",
             "Frecuencia": "Diaria / semanal",
             "Meta": "<= 190 min",
-            "Umbral": "> 210 min implica foco critico",
+            "Umbral": "> 210 min implica foco crítico", #aqui
             "Interpretacion": "Resume la cola de demoras mejor que el promedio cuando hay casos extremos.",
         },
         {
             "Nombre": "Tasa de reclamos",
-            "Objetivo": "Medir friccion de servicio percibida por el cliente.",
+            "Objetivo": "Medir fricción de servicio percibida por el cliente.", #aqui
             "Formula": "Pedidos con reclamo / total de pedidos",
             "Fuente": "logiandes.csv: reclamos_registrados, motivo_reclamo",
             "Frecuencia": "Semanal",
             "Meta": "<= 3%",
-            "Umbral": "> 5% requiere accion correctiva",
-            "Interpretacion": "Ayuda a priorizar causas como demora, direccion, producto o atencion.",
+            "Umbral": "> 5% requiere acción correctiva",
+            "Interpretacion": "Ayuda a priorizar causas como demora, dirección, producto o atención.",
         },
         {
             "Nombre": "Distancia promedio por pedido",
-            "Objetivo": "Entender complejidad fisica de la red logistica.",
+            "Objetivo": "Entender complejidad física de la red logística.", #aqui
             "Formula": "Promedio de distancia_km",
             "Fuente": "logiandes.csv: distancia_km",
             "Frecuencia": "Semanal / mensual",
@@ -309,14 +309,14 @@ def fichas_kpi(sla_min: float) -> list[dict[str, str]]:
             "Interpretacion": "Permite separar demoras por cobertura geografica de demoras por gestion interna.",
         },
         {
-            "Nombre": "Ventas en riesgo logistico",
+            "Nombre": "Ventas en riesgo logístico",
             "Objetivo": "Cuantificar valor comercial expuesto a demoras o reclamos.",
             "Formula": "Suma de ventas_asociadas_usd en pedidos fuera de SLA o con reclamo",
             "Fuente": "logiandes.csv: ventas_asociadas_usd, reclamos_registrados, tiempo_individual_entrega_min",
             "Frecuencia": "Semanal / mensual",
             "Meta": "Reducir tendencia",
             "Umbral": "Crecimiento sostenido frente al periodo anterior",
-            "Interpretacion": "Conecta decisiones logisticas con impacto comercial y financiero.",
+            "Interpretacion": "Conecta decisiones logísticas con impacto comercial y financiero.",
         },
     ]
 
@@ -349,7 +349,7 @@ def estado_kpis(df: pd.DataFrame, sla_min: float) -> pd.DataFrame:
                 "Valor actual": formato_pct(kpis["tasa_reclamos"]),
                 "Meta": "<= 3%",
                 "Estado": "En meta" if kpis["tasa_reclamos"] <= 0.03 else "Revisar",
-                "Lectura": "Mide friccion percibida por el cliente.",
+                "Lectura": "Mide fricción percibida por el cliente.",
             },
             {
                 "KPI": "Distancia promedio por pedido",
@@ -359,7 +359,7 @@ def estado_kpis(df: pd.DataFrame, sla_min: float) -> pd.DataFrame:
                 "Lectura": "Ayuda a entender complejidad fisica de cobertura.",
             },
             {
-                "KPI": "Ventas en riesgo logistico",
+                "KPI": "Ventas en riesgo logístico", #aqui
                 "Valor actual": formato_usd(float(ventas_riesgo)),
                 "Meta": "Reducir tendencia",
                 "Estado": "Priorizar" if ventas_riesgo > 0 else "Sin riesgo",
@@ -437,7 +437,7 @@ def pagina_territorial(df: pd.DataFrame, sla_min: float) -> None:
                 "canal_entrega",
                 "entrega_prom_min",
                 "region",
-                "Tiempo promedio por canal y region",
+                "Tiempo promedio por canal y región", #aqui
             ),
             use_container_width=True,
         )
@@ -538,7 +538,7 @@ def pagina_reclamos(df: pd.DataFrame, sla_min: float) -> None:
     st.subheader("Lectura para accion")
     st.write(
         "Cuando el reclamo se concentra en demora, el primer frente es capacidad y promesa de entrega. "
-        "Cuando aparece producto danado, direccion o atencion, conviene revisar calidad de preparacion, datos de despacho y traspasos entre equipos."
+        "Cuando aparece producto danado, dirección o atención, conviene revisar calidad de preparación, datos de despacho y traspasos entre equipos."
     )
     st.dataframe(
         reclamos.sort_values(["tiempo_individual_entrega_min", "ventas_asociadas_usd"], ascending=False).head(25),
@@ -549,7 +549,7 @@ def pagina_reclamos(df: pd.DataFrame, sla_min: float) -> None:
 
 def pagina_casos(df: pd.DataFrame, sla_min: float) -> None:
     st.title("Detalle operativo")
-    st.caption("Pedidos y combinaciones de negocio que requieren accion operativa.")
+    st.caption("Pedidos y combinaciones de negocio que requieren acción operativa.")
     df = df.copy()
     df["fuera_sla"] = df["tiempo_individual_entrega_min"].gt(sla_min)
 
@@ -571,13 +571,13 @@ def pagina_casos(df: pd.DataFrame, sla_min: float) -> None:
                 "Caso 2: reclamo de alto valor",
                 f"Pedido {pedido['pedido_id']} genero reclamo por {pedido['motivo_reclamo']} y tenia "
                 f"{formato_usd(pedido['ventas_asociadas_usd'])} asociados. "
-                "Priorizar retencion y trazabilidad del incidente.",
+                "Priorizar retención y trazabilidad del incidente.",
             )
         )
     provincia_critica = tabla_resumen(df, ["provincia"], sla_min).iloc[0]
     casos.append(
         (
-            "Caso 3: provincia con friccion",
+            "Caso 3: provincia con fricción", #aqui
             f"{provincia_critica['provincia']} muestra {formato_pct(provincia_critica['fuera_sla_estimado'])} de pedidos fuera de SLA "
             f"y P90 de {provincia_critica['entrega_p90_min']:.1f} min. "
             "Evaluar microzonas, ventanas horarias y capacidad en picos.",
@@ -640,7 +640,7 @@ def pagina_casos(df: pd.DataFrame, sla_min: float) -> None:
 
 
 def pagina_simulador(df: pd.DataFrame, sla_min: float) -> None:
-    st.title("Simulador de decision: impacto de mejorar tiempos")
+    st.title("Simulador de decisión: impacto de mejorar tiempos")
     st.caption("Explora que pasaria si se reduce el tiempo de entrega en segmentos especificos.")
 
     col1, col2, col3 = st.columns(3)
@@ -730,7 +730,7 @@ def pagina_kpis_gobernanza(df: pd.DataFrame, sla_min: float) -> None:
             )
             st.write("")
 
-    st.subheader("Riesgos de interpretacion responsable")
+    st.subheader("Riesgos de interpretación responsable") #aqui
     riesgos = pd.DataFrame(
         [
             {
@@ -747,7 +747,7 @@ def pagina_kpis_gobernanza(df: pd.DataFrame, sla_min: float) -> None:
             },
             {
                 "Riesgo": "Gobernanza",
-                "Control": "Documentar formula, fuente, frecuencia y umbral de cada KPI.",
+                "Control": "Documentar fórmula, fuente, frecuencia y umbral de cada KPI.",
             },
             {
                 "Riesgo": "Limite interpretativo",
@@ -806,7 +806,7 @@ def main() -> None:
         "Secciones",
         [
             "Vista ejecutiva",
-            "Analisis territorial",
+            "Análisis territorial",
             "Detalle operativo",
             "Reclamos",
             "Simulador",
@@ -821,7 +821,7 @@ def main() -> None:
 
     if pagina == "Vista ejecutiva":
         pagina_resumen(df, sla_min)
-    elif pagina == "Analisis territorial":
+    elif pagina == "Análisis territorial": #aqui
         pagina_territorial(df, sla_min)
     elif pagina == "Detalle operativo":
         pagina_casos(df, sla_min)
