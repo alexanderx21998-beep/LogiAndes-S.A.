@@ -425,7 +425,7 @@ def pagina_resumen(df: pd.DataFrame, sla_min: float) -> None:
 
 
 def pagina_territorial(df: pd.DataFrame, sla_min: float) -> None:
-    st.title("Analisis territorial")
+    st.title("Análisis territorial")
     st.caption("Comparacion por region, provincia y canal para detectar donde se tensiona la red.")
 
     col1, col2 = st.columns(2)
