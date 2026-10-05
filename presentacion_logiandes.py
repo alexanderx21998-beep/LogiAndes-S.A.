@@ -473,7 +473,7 @@ def pagina_territorial(df: pd.DataFrame, sla_min: float) -> None:
         )
         st.altair_chart(chart, use_container_width=True)
 
-    st.subheader("Ranking territorial para priorizacion")
+    st.subheader("Ranking territorial para priorización")
     por_provincia = tabla_resumen(df, ["region", "provincia"], sla_min)
     st.dataframe(
         por_provincia,
