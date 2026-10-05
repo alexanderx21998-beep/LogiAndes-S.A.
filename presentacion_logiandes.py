@@ -10,7 +10,7 @@ DATA_PATH = BASE_DIR / "logiandes.csv"
 
 
 st.set_page_config(
-    page_title="LogiAndes | Presentación logística", #aqui
+    page_title="LogiAndes | Presentación logística", 
     page_icon="LA",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -107,10 +107,10 @@ def cargar_datos(path: Path) -> pd.DataFrame:
     df["fecha_pedido"] = pd.to_datetime(df["fecha_pedido"], errors="coerce")
 
     reemplazos = {
-        "Est�ndar urbano": "Estándar urbano", #aqui
-        "Estándar urbano": "Estándar urbano", #aqui
+        "Est�ndar urbano": "Estándar urbano", 
+        "Estándar urbano": "Estándar urbano", 
         "Manab�": "Manabí",
-        "Manabí": "Manabí", #aqui
+        "Manabí": "Manabí", 
     }
     for columna in ["provincia", "region", "canal_entrega", "tipo_cliente", "motivo_reclamo"]:
         df[columna] = df[columna].replace(reemplazos)
@@ -276,7 +276,7 @@ def fichas_kpi(sla_min: float) -> list[dict[str, str]]:
             "Frecuencia": "Diaria / semanal",
             "Meta": ">= 85%",
             "Umbral": "< 75% requiere revisión operativa",
-            "Interpretacion": "Valores bajos senalan saturación, promesa comercial agresiva o problemas de ruta.", #aqui
+            "Interpretacion": "Valores bajos senalan saturación, promesa comercial agresiva o problemas de ruta.", 
         },
         {
             "Nombre": "P90 de tiempo de entrega",
@@ -285,12 +285,12 @@ def fichas_kpi(sla_min: float) -> list[dict[str, str]]:
             "Fuente": "logiandes.csv: tiempo_individual_entrega_min",
             "Frecuencia": "Diaria / semanal",
             "Meta": "<= 190 min",
-            "Umbral": "> 210 min implica foco crítico", #aqui
+            "Umbral": "> 210 min implica foco crítico", 
             "Interpretacion": "Resume la cola de demoras mejor que el promedio cuando hay casos extremos.",
         },
         {
             "Nombre": "Tasa de reclamos",
-            "Objetivo": "Medir fricción de servicio percibida por el cliente.", #aqui
+            "Objetivo": "Medir fricción de servicio percibida por el cliente.", 
             "Formula": "Pedidos con reclamo / total de pedidos",
             "Fuente": "logiandes.csv: reclamos_registrados, motivo_reclamo",
             "Frecuencia": "Semanal",
@@ -300,7 +300,7 @@ def fichas_kpi(sla_min: float) -> list[dict[str, str]]:
         },
         {
             "Nombre": "Distancia promedio por pedido",
-            "Objetivo": "Entender complejidad física de la red logística.", #aqui
+            "Objetivo": "Entender complejidad física de la red logística.", 
             "Formula": "Promedio de distancia_km",
             "Fuente": "logiandes.csv: distancia_km",
             "Frecuencia": "Semanal / mensual",
@@ -359,7 +359,7 @@ def estado_kpis(df: pd.DataFrame, sla_min: float) -> pd.DataFrame:
                 "Lectura": "Ayuda a entender complejidad fisica de cobertura.",
             },
             {
-                "KPI": "Ventas en riesgo logístico", #aqui
+                "KPI": "Ventas en riesgo logístico", 
                 "Valor actual": formato_usd(float(ventas_riesgo)),
                 "Meta": "Reducir tendencia",
                 "Estado": "Priorizar" if ventas_riesgo > 0 else "Sin riesgo",
@@ -437,7 +437,7 @@ def pagina_territorial(df: pd.DataFrame, sla_min: float) -> None:
                 "canal_entrega",
                 "entrega_prom_min",
                 "region",
-                "Tiempo promedio por canal y región", #aqui
+                "Tiempo promedio por canal y región", 
             ),
             use_container_width=True,
         )
@@ -577,7 +577,7 @@ def pagina_casos(df: pd.DataFrame, sla_min: float) -> None:
     provincia_critica = tabla_resumen(df, ["provincia"], sla_min).iloc[0]
     casos.append(
         (
-            "Caso 3: provincia con fricción", #aqui
+            "Caso 3: provincia con fricción", 
             f"{provincia_critica['provincia']} muestra {formato_pct(provincia_critica['fuera_sla_estimado'])} de pedidos fuera de SLA "
             f"y P90 de {provincia_critica['entrega_p90_min']:.1f} min. "
             "Evaluar microzonas, ventanas horarias y capacidad en picos.",
@@ -730,7 +730,7 @@ def pagina_kpis_gobernanza(df: pd.DataFrame, sla_min: float) -> None:
             )
             st.write("")
 
-    st.subheader("Riesgos de interpretación responsable") #aqui
+    st.subheader("Riesgos de interpretación responsable") 
     riesgos = pd.DataFrame(
         [
             {
@@ -821,7 +821,7 @@ def main() -> None:
 
     if pagina == "Vista ejecutiva":
         pagina_resumen(df, sla_min)
-    elif pagina == "Análisis territorial": #aqui
+    elif pagina == "Análisis territorial":
         pagina_territorial(df, sla_min)
     elif pagina == "Detalle operativo":
         pagina_casos(df, sla_min)
